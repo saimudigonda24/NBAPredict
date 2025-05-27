@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 from pydantic import BaseModel
 import sys
 import os
@@ -86,10 +86,84 @@ class HistoricalPrediction(BaseModel):
 # In-memory storage for historical predictions
 historical_predictions: List[HistoricalPrediction] = []
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    """Redirect to API documentation"""
-    return RedirectResponse(url="/docs")
+    """Home page for NBA Predictor API"""
+    return """
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>NBA Predictor API</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #1d428a;
+                    text-align: center;
+                }
+                .endpoint {
+                    background-color: #f5f5f5;
+                    padding: 15px;
+                    border-radius: 5px;
+                    margin: 10px 0;
+                }
+                .method {
+                    font-weight: bold;
+                    color: #1d428a;
+                }
+                a {
+                    color: #1d428a;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+                .docs-link {
+                    text-align: center;
+                    margin: 20px 0;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>🏀 NBA Predictor API</h1>
+            <p>Welcome to the NBA Predictor API! This API provides endpoints for NBA game predictions, team statistics, and more.</p>
+            
+            <div class="docs-link">
+                <a href="/docs">📚 View API Documentation</a>
+            </div>
+
+            <h2>Available Endpoints:</h2>
+            <div class="endpoint">
+                <p><span class="method">GET /teams</span> - List all NBA teams</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">GET /teams/{team_id}/stats</span> - Get team statistics</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">GET /next-game</span> - Get next scheduled game</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">POST /predict</span> - Make a match prediction</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">GET /predictions/history</span> - View prediction history</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">GET /teams/compare/{team1_id}/{team2_id}</span> - Compare two teams</p>
+            </div>
+            <div class="endpoint">
+                <p><span class="method">GET /health</span> - Check API health status</p>
+            </div>
+
+            <p>For detailed API documentation and to try out the endpoints, visit the <a href="/docs">Swagger UI</a>.</p>
+        </body>
+    </html>
+    """
 
 @app.get("/teams", response_model=List[Team])
 async def get_teams():
