@@ -19,6 +19,12 @@ const TEAM_COLORS: Record<string, string> = {
   sac: '#5A2D81', sas: '#C4CED4', tor: '#CE1141', uta: '#002B5C', was: '#002B5C',
 };
 
+// Add custom font
+const fontLink = document.createElement('link');
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap';
+fontLink.rel = 'stylesheet';
+document.head.appendChild(fontLink);
+
 const NextGamePrediction: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [games, setGames] = useState<GameInfo[]>([]);
@@ -57,15 +63,48 @@ const NextGamePrediction: React.FC = () => {
   const getTeamColor = (abbr: string) => TEAM_COLORS[abbr.toLowerCase()] || '#eee';
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Today's NBA Games
+    <Box
+      sx={{
+        p: 3,
+        background: 'linear-gradient(135deg, #1d428a 0%, #c9082a 100%)',
+        borderRadius: 4,
+        boxShadow: 6,
+        mb: 4,
+      }}
+    >
+      <Paper elevation={6} sx={{ p: 3, mb: 3, background: 'rgba(255,255,255,0.95)', borderRadius: 4 }}>
+        <Typography
+          variant="h3"
+          gutterBottom
+          sx={{
+            fontFamily: 'Bebas Neue, Arial, sans-serif',
+            letterSpacing: 2,
+            color: '#1d428a',
+            textShadow: '2px 2px 0 #c9082a',
+            textAlign: 'center',
+          }}
+        >
+          Today&apos;s NBA Games
         </Typography>
         <Grid container spacing={3}>
           {games.map((game) => (
             <Grid item xs={12} md={6} key={game.game_id}>
-              <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+              <Paper
+                elevation={4}
+                sx={{
+                  p: 2,
+                  mb: 2,
+                  border: `3px solid ${getTeamColor(game.home_team)}`,
+                  borderRadius: 3,
+                  boxShadow: '0 8px 24px 0 rgba(29,66,138,0.12)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    transform: 'scale(1.03)',
+                    boxShadow: `0 12px 32px 0 ${getTeamColor(game.away_team)}55`,
+                  },
+                  background: '#fff',
+                }}
+              >
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                   <Box display="flex" alignItems="center" gap={2}>
                     <img src={game.home_team_logo} alt={game.home_team} width={48} height={48} style={{ borderRadius: 8 }} />
@@ -80,12 +119,14 @@ const NextGamePrediction: React.FC = () => {
                         fontSize: '1.1rem',
                         minWidth: 80,
                         textAlign: 'center',
+                        fontFamily: 'Bebas Neue, Arial, sans-serif',
+                        letterSpacing: 1,
                       }}
                     >
                       {game.home_team}
                     </Box>
                   </Box>
-                  <Typography variant="h6">vs</Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#1d428a' }}>vs</Typography>
                   <Box display="flex" alignItems="center" gap={2}>
                     <img src={game.away_team_logo} alt={game.away_team} width={48} height={48} style={{ borderRadius: 8 }} />
                     <Box
@@ -99,6 +140,8 @@ const NextGamePrediction: React.FC = () => {
                         fontSize: '1.1rem',
                         minWidth: 80,
                         textAlign: 'center',
+                        fontFamily: 'Bebas Neue, Arial, sans-serif',
+                        letterSpacing: 1,
                       }}
                     >
                       {game.away_team}
