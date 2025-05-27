@@ -1,0 +1,38 @@
+2025-05-23 16:14:10,521 - INFO - Using data file: data/team_games_20250521.csv
+2025-05-23 16:14:10,521 - INFO - Loading data from data/team_games_20250521.csv
+2025-05-23 16:14:10,532 - INFO - Data loaded successfully with 5551 rows
+2025-05-23 16:14:10,533 - INFO - Total games: 5551
+2025-05-23 16:14:10,533 - INFO - Overtime games: 1927 (34.71%)
+2025-05-23 16:14:10,533 - WARNING - Missing columns for full analysis: ['IS_HOME']
+2025-05-23 16:14:10,533 - WARNING - Available columns: ['SEASON_ID', 'TEAM_ID', 'TEAM_ABBREVIATION', 'TEAM_NAME', 'GAME_ID', 'GAME_DATE', 'MATCHUP', 'WL', 'MIN', 'PTS', 'FGM', 'FGA', 'FG_PCT', 'FG3M', 'FG3A', 'FG3_PCT', 'FTM', 'FTA', 'FT_PCT', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'TOV', 'PF', 'PLUS_MINUS', 'IS_OVERTIME']
+2025-05-23 16:14:10,533 - INFO - Deriving IS_HOME from MATCHUP column
+2025-05-23 16:14:10,535 - INFO - Extracting opponent abbreviation from MATCHUP column
+2025-05-23 16:14:10,539 - INFO - Successfully mapped 5537 opponent IDs
+2025-05-23 16:14:10,540 - INFO - Home team win rate in overtime: 0.5745
+2025-05-23 16:14:10,540 - INFO - Home team win rate in regulation: 0.5572
+2025-05-23 16:14:10,540 - INFO - Away team win rate in overtime: 0.4403
+2025-05-23 16:14:10,540 - INFO - Away team win rate in regulation: 0.4369
+2025-05-23 16:14:10,793 - INFO - Saved overtime by team visualization
+2025-05-23 16:14:10,849 - INFO - Saved overtime win rates visualization
+2025-05-23 16:14:10,849 - INFO - Training model with overtime feature
+/Users/saimudigonda/NBA_Predict/venv/lib/python3.11/site-packages/keras/src/layers/core/dense.py:87: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+2025-05-23 16:14:10,909 - INFO - Identified 1927 overtime games out of 5551 total games
+2025-05-23 16:14:13,874 - WARNING - Column WL contains 1 NaN values. Filling with 0.
+2025-05-23 16:14:13,875 - WARNING - Column FG_PCT contains 1 NaN values. Filling with 0.
+2025-05-23 16:14:13,875 - WARNING - Column FG3_PCT contains 1 NaN values. Filling with 0.
+2025-05-23 16:14:13,875 - WARNING - Column FT_PCT contains 2 NaN values. Filling with 0.
+2025-05-23 16:14:13,876 - WARNING - Column OPPONENT_TEAM_ID contains 14 NaN values. Filling with 0.
+2025-05-23 16:14:13,877 - INFO - Feature matrix shape: (5551, 15)
+2025-05-23 16:14:13,877 - INFO - Target vector shape: (5551,)
+2025-05-23 16:14:13,877 - INFO - Features used: ['TEAM_ID_ENCODED', 'OPPONENT_TEAM_ID_ENCODED', 'IS_HOME', 'PTS_ROLLING_AVG_5', 'FG_PCT_ROLLING_AVG_5', 'FT_PCT_ROLLING_AVG_5', 'FG3_PCT_ROLLING_AVG_5', 'AST_ROLLING_AVG_5', 'REB_ROLLING_AVG_5', 'FTA_ROLLING_AVG_5', 'FT_DRAWING_RATE_ROLLING_AVG_5', 'WIN_STREAK', 'TOV_ROLLING_AVG_5', 'STL_ROLLING_AVG_5', 'OVERTIME_RATE']
+2025-05-23 16:14:13,882 - INFO - X_train shape: (4440, 15)
+2025-05-23 16:14:13,882 - INFO - y_train shape: (4440, 1)
+2025-05-23 16:14:13.888572: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:103] Profiler session initializing.
+2025-05-23 16:14:13.888871: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:118] Profiler session started.
+2025-05-23 16:14:13.889370: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:130] Profiler session tear down.
+2025-05-23 16:14:15.149392: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2025-05-23 16:14:15.193657: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2025-05-23 16:14:16.418602: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2025-05-23 16:14:18.871885: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2025-05-23 16:14:23.690965: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence

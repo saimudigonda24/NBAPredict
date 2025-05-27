@@ -1,0 +1,208 @@
+Starting NBA prediction model training...
+Initializing data collector...
+Loading training data...
+Loaded 5551 training samples
+
+Initializing model...
+/Users/saimudigonda/NBA_Predict/venv/lib/python3.11/site-packages/keras/src/layers/core/dense.py:87: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
+
+Starting model training...
+2025-05-21 13:01:17,423 - INFO - Feature matrix shape: (5551, 14)
+2025-05-21 13:01:17,423 - INFO - Target vector shape: (5551,)
+2025-05-21 13:01:17,423 - INFO - Features used: ['TEAM_ID_ENCODED', 'OPPONENT_TEAM_ID_ENCODED', 'IS_HOME', 'PTS_ROLLING_AVG_5', 'FG_PCT_ROLLING_AVG_5', 'FT_PCT_ROLLING_AVG_5', 'FG3_PCT_ROLLING_AVG_5', 'AST_ROLLING_AVG_5', 'REB_ROLLING_AVG_5', 'FTA_ROLLING_AVG_5', 'FT_DRAWING_RATE_ROLLING_AVG_5', 'WIN_STREAK', 'H2H_WIN_RATE', 'FT_DRAWING_RATE']
+2025-05-21 13:01:17,427 - INFO - X_train shape: (4440, 14)
+2025-05-21 13:01:17,427 - INFO - y_train shape: (4440, 1)
+2025-05-21 13:01:17.435471: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:103] Profiler session initializing.
+2025-05-21 13:01:17.435719: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:118] Profiler session started.
+2025-05-21 13:01:17.436397: I external/local_tsl/tsl/profiler/lib/profiler_session.cc:130] Profiler session tear down.
+
+TensorBoard logs will be saved to: logs/fit/20250521-130117
+To monitor training progress, run:
+tensorboard --logdir logs/fit/20250521-130117
+2025-05-21 13:01:18.930370: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+2025-05-21 13:01:19.051740: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 1/150 - loss: nan - accuracy: 0.5027 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:01:20.526702: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 2/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 3/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:01:23.528144: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 4/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 5/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 6/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 7/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:01:28.373828: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 8/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 9/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 10/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 11/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 12/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 13/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 14/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 15/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:01:38.305839: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 16/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 17/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 18/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 19/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 20/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 21/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 22/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 23/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 24/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 25/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 26/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 27/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 28/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 29/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 30/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 31/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:01:57.649302: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 32/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 33/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 34/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 35/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 36/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 37/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 38/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 39/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 40/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 41/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 42/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 43/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 44/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 45/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 46/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 47/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 48/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 49/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 50/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 51/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 52/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 53/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 54/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 55/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 56/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 57/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 58/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 59/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 60/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 61/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 62/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 63/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:02:36.742234: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 64/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 65/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 66/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 67/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 68/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 69/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 70/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 71/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 72/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 73/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 74/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 75/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 76/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 77/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 78/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 79/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 80/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 81/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 82/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 83/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 84/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 85/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 86/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 87/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 88/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 89/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 90/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 91/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 92/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 93/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 94/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 95/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 96/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 97/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 98/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 99/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 100/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 101/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 102/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 103/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 104/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 105/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 106/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 107/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 108/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 109/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 110/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 111/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 112/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 113/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 114/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 115/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 116/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 117/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 118/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 119/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 120/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 121/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 122/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 123/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 124/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 125/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 126/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 127/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+2025-05-21 13:03:54.181616: I tensorflow/core/framework/local_rendezvous.cc:407] Local rendezvous is aborting with status: OUT_OF_RANGE: End of sequence
+Epoch 128/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 129/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 130/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 131/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 132/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 133/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 134/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 135/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 136/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 137/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 138/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 139/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 140/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 141/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 142/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 143/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 144/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 145/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 146/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 147/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 148/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 149/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+Epoch 150/150 - loss: nan - accuracy: 0.4991 - val_loss: nan - val_accuracy: 0.4955
+[1m 1/35[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m1s[0m 43ms/step[1m35/35[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 1ms/step 
+2025-05-21 13:04:20,757 - INFO - 
+Model accuracy: 0.500
+2025-05-21 13:04:20,757 - INFO - 
+Classification Report:
+/Users/saimudigonda/NBA_Predict/venv/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/saimudigonda/NBA_Predict/venv/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/Users/saimudigonda/NBA_Predict/venv/lib/python3.11/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+2025-05-21 13:04:20,762 - INFO -               precision    recall  f1-score   support
+
+           0       0.50      1.00      0.67       555
+           1       0.00      0.00      0.00       556
+
+    accuracy                           0.50      1111
+   macro avg       0.25      0.50      0.33      1111
+weighted avg       0.25      0.50      0.33      1111
+
+
+Training completed successfully!
+Final training accuracy: 0.4991
+Final validation accuracy: 0.4955
+2025-05-21 13:04:21,494 - INFO - Model saved to models/match_predictor_model.h5
+
+Model saved successfully!
