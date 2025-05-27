@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 import sys
 import os
@@ -84,6 +85,11 @@ class HistoricalPrediction(BaseModel):
 
 # In-memory storage for historical predictions
 historical_predictions: List[HistoricalPrediction] = []
+
+@app.get("/")
+async def root():
+    """Redirect to API documentation"""
+    return RedirectResponse(url="/docs")
 
 @app.get("/teams", response_model=List[Team])
 async def get_teams():
