@@ -184,22 +184,6 @@ async def get_team_stats(team_id: int):
         raise HTTPException(status_code=404, detail="Team stats not found")
     return TeamStats(**stats)
 
-@app.get("/next-game", response_model=List[Game])
-async def get_next_game():
-    """Get predictions for today's games"""
-    # This would be replaced with actual data from your model
-    return [
-        Game(
-            home_team="Lakers",
-            away_team="Celtics",
-            home_team_logo="/static/images/lakers.png",
-            away_team_logo="/static/images/celtics.png",
-            home_win_probability=65.0,
-            predicted_home_score=112,
-            predicted_away_score=108
-        )
-    ]
-
 @app.get("/player-predictions", response_model=List[PlayerPrediction])
 async def get_player_predictions():
     """Get predictions for players in today's games"""
