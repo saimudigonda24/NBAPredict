@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import leaguegamefinder, commonplayerinfo, playergamelog
+from nba_api.stats.endpoints import leaguegamefinder, commonplayerinfo, playergamelog, scoreboardv2
 from nba_api.stats.static import teams, players
 import pandas as pd
 import time
@@ -6,6 +6,7 @@ from datetime import datetime
 import logging
 import random
 import requests
+from typing import List
 
 # Set up logging
 logging.basicConfig(

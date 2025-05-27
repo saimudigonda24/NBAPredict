@@ -109,4 +109,24 @@ export const compareTeams = async (team1Id: number, team2Id: number): Promise<{
     console.error(`Error comparing teams ${team1Id} and ${team2Id}:`, error);
     throw error;
   }
+};
+
+export interface GameInfo {
+  game_id: string;
+  home_team: string;
+  away_team: string;
+  start_time: string;
+  home_team_logo: string;
+  away_team_logo: string;
+  prediction?: number;
+}
+
+export const getTodaysGames = async (): Promise<GameInfo[]> => {
+  try {
+    const response = await api.get('/games/today');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching today\'s games:', error);
+    throw error;
+  }
 }; 

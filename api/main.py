@@ -13,6 +13,7 @@ from datetime import datetime
 import random
 import json
 from pathlib import Path
+from nba_api.stats.endpoints import scoreboardv2
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -119,6 +120,15 @@ class OverallPrediction(BaseModel):
     accuracy: float
     total_predictions: int
     model_confidence: float
+
+class GameInfo(BaseModel):
+    game_id: str
+    home_team: str
+    away_team: str
+    start_time: str
+    home_team_logo: str
+    away_team_logo: str
+    prediction: Optional[float] = None
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -329,6 +339,34 @@ async def health_check():
     except Exception as e:
         logger.error(f"Health check failed: {str(e)}")
         return {"status": "unhealthy", "error": str(e)}
+
+@app.get("/games/today", response_model=List[GameInfo])
+async def get_todays_games():
+    today = datetime.now().strftime("%m/%d/%Y")
+    scoreboard = scoreboardv2.ScoreboardV2(game_date=today)
+    games = scoreboard.get_normalized_dict()["GameHeader"]
+    lines = []
+    for game in games:
+        home_team = game["HOME_TEAM_ABBREVIATION"]
+        away_team = game["VISITOR_TEAM_ABBREVIATION"]
+        start_time = game["GAME_STATUS_TEXT"]
+        # Use local static images if available, else fallback to a CDN
+        def logo_path(team_abbr):
+            local_path = f"/static/images/{team_abbr.lower()}.png"
+            if os.path.exists(f"api/static/images/{team_abbr.lower()}.png"):
+                return local_path
+            # fallback to a public NBA CDN if not found locally
+            return f"https://cdn.nba.com/logos/nba/{team_abbr.upper()}/primary/L/logo.svg"
+        lines.append(GameInfo(
+            game_id=game["GAME_ID"],
+            home_team=home_team,
+            away_team=away_team,
+            start_time=start_time,
+            home_team_logo=logo_path(home_team),
+            away_team_logo=logo_path(away_team),
+            prediction=None  # TODO: Integrate your model here
+        ))
+    return lines
 
 if __name__ == "__main__":
     import uvicorn
