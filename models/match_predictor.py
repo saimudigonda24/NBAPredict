@@ -4,13 +4,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import tensorflow as tf
-import keras
-from keras import layers, models, optimizers, callbacks
+from tensorflow import keras
+from tensorflow.keras import layers, models, optimizers, callbacks
 import joblib
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tensorflow.python.keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 import time
 
 logging.basicConfig(
@@ -29,14 +29,16 @@ class NBAMatchPredictor:
         
     def _build_model(self):
         """Build the TensorFlow model with Sequential API"""
-        model = models.Sequential()
-        model.add(layers.Dense(64, input_dim=15, activation='relu'))  # Updated input_dim to 15 to include overtime
-        model.add(layers.BatchNormalization())
-        model.add(layers.Dropout(0.1))
-        model.add(layers.Dense(32, activation='relu'))
-        model.add(layers.BatchNormalization())
-        model.add(layers.Dropout(0.1))
-        model.add(layers.Dense(1, activation='sigmoid'))
+        model = models.Sequential([
+            layers.Input(shape=(15,)),  # Updated input shape to 15 features
+            layers.Dense(64, activation='relu'),
+            layers.BatchNormalization(),
+            layers.Dropout(0.1),
+            layers.Dense(32, activation='relu'),
+            layers.BatchNormalization(),
+            layers.Dropout(0.1),
+            layers.Dense(1, activation='sigmoid')
+        ])
         
         model.compile(
             optimizer=optimizers.Adam(learning_rate=0.001),
@@ -419,7 +421,12 @@ class NBAMatchPredictor:
         """Load a trained model"""
         try:
             # Load TensorFlow model
-            self.model = tf.keras.models.load_model(filepath + '.keras')
+            self.model = tf.keras.models.load_model(filepath + '.keras', compile=False)
+            self.model.compile(
+                optimizer=optimizers.Adam(learning_rate=0.001),
+                loss='binary_crossentropy',
+                metrics=['accuracy']
+            )
             
             # Load encoders and scaler
             encoders = joblib.load(filepath + '_encoders.joblib')
@@ -427,7 +434,6 @@ class NBAMatchPredictor:
             self.scaler = encoders['scaler']
             
             # Initialize X_test and y_test attributes (needed for evaluation)
-            # These will be populated when needed for evaluation
             self.X_test = None
             self.y_test = None
             
