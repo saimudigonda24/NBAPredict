@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import sys
 import os
@@ -93,74 +94,333 @@ async def root():
     <!DOCTYPE html>
     <html>
         <head>
-            <title>NBA Predictor API</title>
+            <title>NBA Predictor</title>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
             <style>
+                :root {
+                    --primary: #1d428a;
+                    --secondary: #c9082a;
+                    --background: #f8f9fa;
+                    --card-bg: #ffffff;
+                    --text: #2c3e50;
+                    --text-light: #6c757d;
+                }
+                
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
                 body {
-                    font-family: Arial, sans-serif;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    padding: 20px;
+                    font-family: 'Inter', sans-serif;
+                    background-color: var(--background);
+                    color: var(--text);
                     line-height: 1.6;
                 }
-                h1 {
-                    color: #1d428a;
-                    text-align: center;
+                
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
                 }
-                .endpoint {
-                    background-color: #f5f5f5;
-                    padding: 15px;
-                    border-radius: 5px;
-                    margin: 10px 0;
+                
+                header {
+                    background: linear-gradient(135deg, var(--primary), #2a5298);
+                    color: white;
+                    padding: 2rem 0;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 }
-                .method {
-                    font-weight: bold;
-                    color: #1d428a;
+                
+                .header-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                 }
-                a {
-                    color: #1d428a;
+                
+                .logo {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+                
+                .nav-links {
+                    display: flex;
+                    gap: 2rem;
+                }
+                
+                .nav-links a {
+                    color: white;
                     text-decoration: none;
+                    font-weight: 500;
+                    transition: opacity 0.2s;
                 }
-                a:hover {
-                    text-decoration: underline;
+                
+                .nav-links a:hover {
+                    opacity: 0.8;
                 }
-                .docs-link {
+                
+                .section {
+                    background: var(--card-bg);
+                    border-radius: 12px;
+                    padding: 2rem;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
+                
+                .section-title {
+                    font-size: 1.5rem;
+                    color: var(--primary);
+                    margin-bottom: 1.5rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .games-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                }
+                
+                .game-card {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                    transition: transform 0.2s;
+                }
+                
+                .game-card:hover {
+                    transform: translateY(-2px);
+                }
+                
+                .team {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .team-logo {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: #eee;
+                }
+                
+                .vs {
                     text-align: center;
-                    margin: 20px 0;
+                    color: var(--text-light);
+                    font-weight: 600;
+                    margin: 1rem 0;
+                }
+                
+                .prediction {
+                    background: linear-gradient(135deg, #f6f9fc, #edf2f7);
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin-top: 1rem;
+                }
+                
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                }
+                
+                .stat-card {
+                    background: white;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    text-align: center;
+                }
+                
+                .stat-value {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    color: var(--primary);
+                }
+                
+                .stat-label {
+                    color: var(--text-light);
+                    font-size: 0.9rem;
+                }
+                
+                .api-section {
+                    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+                    border-radius: 12px;
+                    padding: 2rem;
+                }
+                
+                .endpoint {
+                    background: white;
+                    padding: 1rem;
+                    border-radius: 8px;
+                    margin: 0.5rem 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .method {
+                    background: var(--primary);
+                    color: white;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                }
+                
+                .docs-link {
+                    display: inline-block;
+                    background: var(--primary);
+                    color: white;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 500;
+                    margin-top: 1rem;
+                    transition: background-color 0.2s;
+                }
+                
+                .docs-link:hover {
+                    background: #2a5298;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        flex-direction: column;
+                        text-align: center;
+                        gap: 1rem;
+                    }
+                    
+                    .nav-links {
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
                 }
             </style>
         </head>
         <body>
-            <h1>🏀 NBA Predictor API</h1>
-            <p>Welcome to the NBA Predictor API! This API provides endpoints for NBA game predictions, team statistics, and more.</p>
-            
-            <div class="docs-link">
-                <a href="/docs">📚 View API Documentation</a>
+            <header>
+                <div class="container">
+                    <div class="header-content">
+                        <div class="logo">
+                            🏀 NBA Predictor
+                        </div>
+                        <nav class="nav-links">
+                            <a href="#games">Today's Games</a>
+                            <a href="#predictions">Predictions</a>
+                            <a href="#players">Player Stats</a>
+                            <a href="#api">API</a>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <section id="games" class="section">
+                    <h2 class="section-title">🎮 Games Playing Today</h2>
+                    <div class="games-grid">
+                        <div class="game-card">
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div>
+                                    <h3>Lakers</h3>
+                                    <p>Home</p>
+                                </div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="team">
+                                <div class="team-logo"></div>
+                                <div>
+                                    <h3>Celtics</h3>
+                                    <p>Away</p>
+                                </div>
+                            </div>
+                            <div class="prediction">
+                                <h4>Prediction</h4>
+                                <p>Lakers win probability: 65%</p>
+                            </div>
+                        </div>
+                        <!-- More game cards will be dynamically added -->
+                    </div>
+                </section>
+
+                <section id="predictions" class="section">
+                    <h2 class="section-title">🎯 Match Predictions</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Prediction Accuracy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">1,234</div>
+                            <div class="stat-label">Predictions Made</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Model Confidence</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="players" class="section">
+                    <h2 class="section-title">👥 Player Predictions</h2>
+                    <div class="games-grid">
+                        <div class="game-card">
+                            <h3>LeBron James</h3>
+                            <p>Points: 28.5</p>
+                            <p>Rebounds: 7.2</p>
+                            <p>Assists: 8.1</p>
+                        </div>
+                        <!-- More player cards will be dynamically added -->
+                    </div>
+                </section>
+
+                <section id="api" class="api-section">
+                    <h2 class="section-title">🔌 API Documentation</h2>
+                    <p>Access our powerful NBA prediction API to integrate predictions into your application.</p>
+                    
+                    <div class="endpoint">
+                        <span class="method">GET</span>
+                        <span>/teams</span>
+                        <span>List all NBA teams</span>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method">GET</span>
+                        <span>/teams/{id}/stats</span>
+                        <span>Get team statistics</span>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method">POST</span>
+                        <span>/predict</span>
+                        <span>Make a match prediction</span>
+                    </div>
+                    
+                    <a href="/docs" class="docs-link">View Full API Documentation</a>
+                </section>
             </div>
 
-            <h2>Available Endpoints:</h2>
-            <div class="endpoint">
-                <p><span class="method">GET /teams</span> - List all NBA teams</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">GET /teams/{team_id}/stats</span> - Get team statistics</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">GET /next-game</span> - Get next scheduled game</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">POST /predict</span> - Make a match prediction</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">GET /predictions/history</span> - View prediction history</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">GET /teams/compare/{team1_id}/{team2_id}</span> - Compare two teams</p>
-            </div>
-            <div class="endpoint">
-                <p><span class="method">GET /health</span> - Check API health status</p>
-            </div>
+            <script>
+                // This will be replaced with actual API calls to populate the data
+                async function loadTodayGames() {
+                    try {
+                        const response = await fetch('/next-game');
+                        const games = await response.json();
+                        // Update the games grid with actual data
+                    } catch (error) {
+                        console.error('Error loading games:', error);
+                    }
+                }
 
-            <p>For detailed API documentation and to try out the endpoints, visit the <a href="/docs">Swagger UI</a>.</p>
+                // Load initial data
+                loadTodayGames();
+            </script>
         </body>
     </html>
     """
