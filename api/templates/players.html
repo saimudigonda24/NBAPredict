@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}NBA Predictor - Player Predictions{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2 class="section-title">👥 Player Predictions</h2>
+    <div id="players-container" class="grid">
+        <!-- Player predictions will be loaded dynamically -->
+    </div>
+    <p id="last-updated" class="text-light"></p>
+</section>
+
+<section class="section">
+    <h2 class="section-title">📊 Player Stats</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">82%</div>
+            <div class="stat-label">Points Prediction Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">78%</div>
+            <div class="stat-label">Rebounds Prediction Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">85%</div>
+            <div class="stat-label">Assists Prediction Accuracy</div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Load initial data
+    loadPlayerPredictions();
+    updateLastUpdated();
+</script>
+{% endblock %} 

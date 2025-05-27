@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}NBA Predictor - Overall Predictions{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2 class="section-title">📊 Overall Predictions</h2>
+    <div id="predictions-container" class="stats-grid">
+        <!-- Overall predictions will be loaded dynamically -->
+    </div>
+    <p id="last-updated" class="text-light"></p>
+</section>
+
+<section class="section">
+    <h2 class="section-title">🎯 Prediction Accuracy</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">85%</div>
+            <div class="stat-label">Game Outcome Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">82%</div>
+            <div class="stat-label">Player Stats Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">92%</div>
+            <div class="stat-label">Model Confidence</div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">📈 Historical Performance</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">1,234</div>
+            <div class="stat-label">Total Predictions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">1,049</div>
+            <div class="stat-label">Correct Predictions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">185</div>
+            <div class="stat-label">Incorrect Predictions</div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Load initial data
+    loadOverallPredictions();
+    updateLastUpdated();
+</script>
+{% endblock %} 

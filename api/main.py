@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from pydantic import BaseModel
 import sys
 import os
@@ -9,6 +11,8 @@ from typing import List, Optional
 import logging
 from datetime import datetime
 import random
+import json
+from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -24,6 +28,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="NBA Predictor API")
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="api/static"), name="static")
+
+# Templates
+templates = Jinja2Templates(directory="api/templates")
 
 # Add CORS middleware
 app.add_middleware(
@@ -87,343 +97,68 @@ class HistoricalPrediction(BaseModel):
 # In-memory storage for historical predictions
 historical_predictions: List[HistoricalPrediction] = []
 
+class Game(BaseModel):
+    home_team: str
+    away_team: str
+    home_team_logo: str
+    away_team_logo: str
+    home_win_probability: float
+    predicted_home_score: int
+    predicted_away_score: int
+
+class PlayerPrediction(BaseModel):
+    name: str
+    team: str
+    team_logo: str
+    predicted_points: float
+    predicted_rebounds: float
+    predicted_assists: float
+    prediction_confidence: float
+
+class OverallPrediction(BaseModel):
+    accuracy: float
+    total_predictions: int
+    model_confidence: float
+
 @app.get("/", response_class=HTMLResponse)
-async def root():
-    """Home page for NBA Predictor API"""
-    return """
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>NBA Predictor</title>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-            <style>
-                :root {
-                    --primary: #1d428a;
-                    --secondary: #c9082a;
-                    --background: #f8f9fa;
-                    --card-bg: #ffffff;
-                    --text: #2c3e50;
-                    --text-light: #6c757d;
-                }
-                
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                
-                body {
-                    font-family: 'Inter', sans-serif;
-                    background-color: var(--background);
-                    color: var(--text);
-                    line-height: 1.6;
-                }
-                
-                .container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 20px;
-                }
-                
-                header {
-                    background: linear-gradient(135deg, var(--primary), #2a5298);
-                    color: white;
-                    padding: 2rem 0;
-                    margin-bottom: 2rem;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                }
-                
-                .header-content {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                
-                .logo {
-                    font-size: 2rem;
-                    font-weight: 700;
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                }
-                
-                .nav-links {
-                    display: flex;
-                    gap: 2rem;
-                }
-                
-                .nav-links a {
-                    color: white;
-                    text-decoration: none;
-                    font-weight: 500;
-                    transition: opacity 0.2s;
-                }
-                
-                .nav-links a:hover {
-                    opacity: 0.8;
-                }
-                
-                .section {
-                    background: var(--card-bg);
-                    border-radius: 12px;
-                    padding: 2rem;
-                    margin-bottom: 2rem;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                }
-                
-                .section-title {
-                    font-size: 1.5rem;
-                    color: var(--primary);
-                    margin-bottom: 1.5rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-                
-                .games-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 1.5rem;
-                }
-                
-                .game-card {
-                    background: white;
-                    border-radius: 8px;
-                    padding: 1.5rem;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                    transition: transform 0.2s;
-                }
-                
-                .game-card:hover {
-                    transform: translateY(-2px);
-                }
-                
-                .team {
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                    margin-bottom: 1rem;
-                }
-                
-                .team-logo {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    background: #eee;
-                }
-                
-                .vs {
-                    text-align: center;
-                    color: var(--text-light);
-                    font-weight: 600;
-                    margin: 1rem 0;
-                }
-                
-                .prediction {
-                    background: linear-gradient(135deg, #f6f9fc, #edf2f7);
-                    border-radius: 8px;
-                    padding: 1rem;
-                    margin-top: 1rem;
-                }
-                
-                .stats-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 1rem;
-                }
-                
-                .stat-card {
-                    background: white;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    text-align: center;
-                }
-                
-                .stat-value {
-                    font-size: 1.5rem;
-                    font-weight: 600;
-                    color: var(--primary);
-                }
-                
-                .stat-label {
-                    color: var(--text-light);
-                    font-size: 0.9rem;
-                }
-                
-                .api-section {
-                    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-                    border-radius: 12px;
-                    padding: 2rem;
-                }
-                
-                .endpoint {
-                    background: white;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    margin: 0.5rem 0;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                
-                .method {
-                    background: var(--primary);
-                    color: white;
-                    padding: 0.25rem 0.75rem;
-                    border-radius: 4px;
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                }
-                
-                .docs-link {
-                    display: inline-block;
-                    background: var(--primary);
-                    color: white;
-                    padding: 0.75rem 1.5rem;
-                    border-radius: 6px;
-                    text-decoration: none;
-                    font-weight: 500;
-                    margin-top: 1rem;
-                    transition: background-color 0.2s;
-                }
-                
-                .docs-link:hover {
-                    background: #2a5298;
-                }
-                
-                @media (max-width: 768px) {
-                    .header-content {
-                        flex-direction: column;
-                        text-align: center;
-                        gap: 1rem;
-                    }
-                    
-                    .nav-links {
-                        flex-direction: column;
-                        gap: 1rem;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <header>
-                <div class="container">
-                    <div class="header-content">
-                        <div class="logo">
-                            🏀 NBA Predictor
-                        </div>
-                        <nav class="nav-links">
-                            <a href="#games">Today's Games</a>
-                            <a href="#predictions">Predictions</a>
-                            <a href="#players">Player Stats</a>
-                            <a href="#api">API</a>
-                        </nav>
-                    </div>
-                </div>
-            </header>
+async def home(request: Request):
+    """Home page with today's games"""
+    return templates.TemplateResponse(
+        "home.html",
+        {"request": request, "active_page": "home"}
+    )
 
-            <div class="container">
-                <section id="games" class="section">
-                    <h2 class="section-title">🎮 Games Playing Today</h2>
-                    <div class="games-grid">
-                        <div class="game-card">
-                            <div class="team">
-                                <div class="team-logo"></div>
-                                <div>
-                                    <h3>Lakers</h3>
-                                    <p>Home</p>
-                                </div>
-                            </div>
-                            <div class="vs">VS</div>
-                            <div class="team">
-                                <div class="team-logo"></div>
-                                <div>
-                                    <h3>Celtics</h3>
-                                    <p>Away</p>
-                                </div>
-                            </div>
-                            <div class="prediction">
-                                <h4>Prediction</h4>
-                                <p>Lakers win probability: 65%</p>
-                            </div>
-                        </div>
-                        <!-- More game cards will be dynamically added -->
-                    </div>
-                </section>
+@app.get("/games", response_class=HTMLResponse)
+async def games_page(request: Request):
+    """Games page with today's games"""
+    return templates.TemplateResponse(
+        "games.html",
+        {"request": request, "active_page": "games"}
+    )
 
-                <section id="predictions" class="section">
-                    <h2 class="section-title">🎯 Match Predictions</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value">85%</div>
-                            <div class="stat-label">Prediction Accuracy</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">1,234</div>
-                            <div class="stat-label">Predictions Made</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">92%</div>
-                            <div class="stat-label">Model Confidence</div>
-                        </div>
-                    </div>
-                </section>
+@app.get("/players", response_class=HTMLResponse)
+async def players_page(request: Request):
+    """Players page with player predictions"""
+    return templates.TemplateResponse(
+        "players.html",
+        {"request": request, "active_page": "players"}
+    )
 
-                <section id="players" class="section">
-                    <h2 class="section-title">👥 Player Predictions</h2>
-                    <div class="games-grid">
-                        <div class="game-card">
-                            <h3>LeBron James</h3>
-                            <p>Points: 28.5</p>
-                            <p>Rebounds: 7.2</p>
-                            <p>Assists: 8.1</p>
-                        </div>
-                        <!-- More player cards will be dynamically added -->
-                    </div>
-                </section>
+@app.get("/predictions", response_class=HTMLResponse)
+async def predictions_page(request: Request):
+    """Predictions page with overall stats"""
+    return templates.TemplateResponse(
+        "predictions.html",
+        {"request": request, "active_page": "predictions"}
+    )
 
-                <section id="api" class="api-section">
-                    <h2 class="section-title">🔌 API Documentation</h2>
-                    <p>Access our powerful NBA prediction API to integrate predictions into your application.</p>
-                    
-                    <div class="endpoint">
-                        <span class="method">GET</span>
-                        <span>/teams</span>
-                        <span>List all NBA teams</span>
-                    </div>
-                    <div class="endpoint">
-                        <span class="method">GET</span>
-                        <span>/teams/{id}/stats</span>
-                        <span>Get team statistics</span>
-                    </div>
-                    <div class="endpoint">
-                        <span class="method">POST</span>
-                        <span>/predict</span>
-                        <span>Make a match prediction</span>
-                    </div>
-                    
-                    <a href="/docs" class="docs-link">View Full API Documentation</a>
-                </section>
-            </div>
-
-            <script>
-                // This will be replaced with actual API calls to populate the data
-                async function loadTodayGames() {
-                    try {
-                        const response = await fetch('/next-game');
-                        const games = await response.json();
-                        // Update the games grid with actual data
-                    } catch (error) {
-                        console.error('Error loading games:', error);
-                    }
-                }
-
-                // Load initial data
-                loadTodayGames();
-            </script>
-        </body>
-    </html>
-    """
+@app.get("/api", response_class=HTMLResponse)
+async def api_page(request: Request):
+    """API documentation page"""
+    return templates.TemplateResponse(
+        "api.html",
+        {"request": request, "active_page": "api"}
+    )
 
 @app.get("/teams", response_model=List[Team])
 async def get_teams():
@@ -439,13 +174,56 @@ async def get_team_stats(team_id: int):
         raise HTTPException(status_code=404, detail="Team stats not found")
     return TeamStats(**stats)
 
-@app.get("/next-game", response_model=dict)
+@app.get("/next-game", response_model=List[Game])
 async def get_next_game():
-    """Get the next scheduled NBA game"""
-    next_game = nba_api.get_next_game()
-    if not next_game:
-        raise HTTPException(status_code=404, detail="No upcoming games found")
-    return next_game
+    """Get predictions for today's games"""
+    # This would be replaced with actual data from your model
+    return [
+        Game(
+            home_team="Lakers",
+            away_team="Celtics",
+            home_team_logo="/static/images/lakers.png",
+            away_team_logo="/static/images/celtics.png",
+            home_win_probability=65.0,
+            predicted_home_score=112,
+            predicted_away_score=108
+        )
+    ]
+
+@app.get("/player-predictions", response_model=List[PlayerPrediction])
+async def get_player_predictions():
+    """Get predictions for players in today's games"""
+    # This would be replaced with actual data from your model
+    return [
+        PlayerPrediction(
+            name="LeBron James",
+            team="Lakers",
+            team_logo="/static/images/lakers.png",
+            predicted_points=28.5,
+            predicted_rebounds=7.2,
+            predicted_assists=8.1,
+            prediction_confidence=85.0
+        ),
+        PlayerPrediction(
+            name="Jayson Tatum",
+            team="Celtics",
+            team_logo="/static/images/celtics.png",
+            predicted_points=25.8,
+            predicted_rebounds=8.3,
+            predicted_assists=4.2,
+            prediction_confidence=82.0
+        )
+    ]
+
+@app.get("/overall-predictions", response_model=OverallPrediction)
+async def get_overall_predictions():
+    """Get overall prediction statistics"""
+    # This would be replaced with actual data from your model
+    return OverallPrediction(
+        accuracy=85.0,
+        total_predictions=1234,
+        model_confidence=92.0
+    )
 
 @app.post("/predict", response_model=Prediction)
 async def predict_match(request: MatchPredictionRequest):

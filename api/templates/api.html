@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}NBA Predictor - API Documentation{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2 class="section-title">🔌 API Documentation</h2>
+    <p>Access our powerful NBA prediction API to integrate predictions into your application.</p>
+    
+    <div class="endpoint">
+        <span class="method">GET</span>
+        <span>/teams</span>
+        <span>List all NBA teams</span>
+    </div>
+    <div class="endpoint">
+        <span class="method">GET</span>
+        <span>/teams/{id}/stats</span>
+        <span>Get team statistics</span>
+    </div>
+    <div class="endpoint">
+        <span class="method">GET</span>
+        <span>/next-game</span>
+        <span>Get predictions for today's games</span>
+    </div>
+    <div class="endpoint">
+        <span class="method">GET</span>
+        <span>/player-predictions</span>
+        <span>Get predictions for players in today's games</span>
+    </div>
+    <div class="endpoint">
+        <span class="method">GET</span>
+        <span>/overall-predictions</span>
+        <span>Get overall prediction statistics</span>
+    </div>
+    <div class="endpoint">
+        <span class="method">POST</span>
+        <span>/predict</span>
+        <span>Make a match prediction</span>
+    </div>
+    
+    <a href="/docs" class="button">View Full API Documentation</a>
+</section>
+
+<section class="section">
+    <h2 class="section-title">📚 API Examples</h2>
+    <div class="card">
+        <h3>Get Today's Games</h3>
+        <pre><code>GET /next-game
+Response:
+{
+    "games": [
+        {
+            "home_team": "Lakers",
+            "away_team": "Celtics",
+            "home_win_probability": 65.0,
+            "predicted_home_score": 112,
+            "predicted_away_score": 108
+        }
+    ]
+}</code></pre>
+    </div>
+    
+    <div class="card">
+        <h3>Get Player Predictions</h3>
+        <pre><code>GET /player-predictions
+Response:
+{
+    "players": [
+        {
+            "name": "LeBron James",
+            "team": "Lakers",
+            "predicted_points": 28.5,
+            "predicted_rebounds": 7.2,
+            "predicted_assists": 8.1,
+            "prediction_confidence": 85.0
+        }
+    ]
+}</code></pre>
+    </div>
+</section>
+{% endblock %} 
